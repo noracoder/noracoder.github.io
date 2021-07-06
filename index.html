@@ -1,5 +1,94 @@
 <html>
+<head>
+    <title>Nora Example Read Multiple Image using file Input Element</title>
+    <style>
+        .button_style {
+            width:220;
+            height:50;
+            background-color:ef008c;
+        }
+        .canvas_style {
+            width:100;
+            height:140;
+            background-color:ef008c;
+        }
+    </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+</head>
 <body>
-Kill My Mind
+    <p>
+        <label style="color:red">
+            <!-- Newly Added -->
+            dwidth: <input id="dwidth" value="200" placeholder="dwidth"/>
+            <!-- Newly Added -->
+            dheight: <input id="dheight" value="100" placeholder="dheight"/>
+        </label>
+    </p>
+    <!--button id="crop" class="button_style">Click to Crop</button-->    
+    <p>Click button to select files.</p> 
+    <p>
+        <label style="color:green">
+            <input type="file" id="file" multiple />
+        </label>
+    </p>
+    <!--SHOW THE IMAGES-->
+      <p id="img"></p>
+      <hr/>
+      <!--p id="source"></p>
+      <p id="frame"></p-->
+    <canvas id="canvas" style="width:600;height:400;background-color:ef008c;"></canvas>
+    <div style="display:none;">
+        <img id="source" src="" width="300" height="227">
+        <img id="frame" src="" width="132" height="150">
+    </div>
+
 </body>
+<script>
+$(document).ready(function() {
+    var reader = new FileReader();
+    $('#file').change(function() {
+        if (this.files.length > 0) {
+            let old = $('#handle');
+            if(old) old.remove();
+            $.each(this.files, function() {                
+                    reader.onload = function (e) {
+        
+                    var img = new Image();
+                    img.id = "handle";
+                    img.src = e.target.result;
+                    img.setAttribute('style', 'width:100;');
+                    $('#img').append(img);
+                };
+                reader.readAsDataURL(this);
+            });
+        };
+                reader.onloadend = (e) => crop();    
+    });
+    
+    /** Newly Added */
+    $('#dwidth').change((e) => crop());
+});
+
+    function crop() {
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, 600, 400);
+
+
+        // Draw slice
+        //      var temp = $('#handle');
+        //      console.log(temp);
+        let swidth = 100;                               /** Newly Added */
+        let sheight = 140;                              /** Newly Added */
+        let dwidth = parseInt($('#dwidth').val());      /** Newly Added */
+        let dheight = parseInt($('#dheight').val());    /** Newly Added */
+        console.log(dwidth);                            /** Newly Added */
+        console.log(dheight);                           /** Newly Added */
+        ctx.drawImage(document.getElementById('handle'), 0, 0, swidth, sheight, 5, 5, dwidth, dheight); /** Newly Added */
+        // Draw frame
+        //ctx.drawImage(document.getElementById('frame'), 0, 0);
+        console.log("Image was cropped is done!");                   /** Newly Added */        
+    }
+
+</script>
 </html>
