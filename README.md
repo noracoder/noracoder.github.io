@@ -10,7 +10,8 @@ Stream Walls besties &lt;3
 - email address of buyer
 - T&C agreement check box
   
-3. Modify "seller" form to add more item description fields (can use bubble selection to get more specific information)
+3. Modify "seller" form to add more item description fields 
+- (can use bubble selection to get more specific information)
 
 4. Create "contact us" form
 
